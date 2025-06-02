@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do List XP</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .done { text-decoration: line-through; color: gray; }
+        .flash { background: #ffd; padding: 10px; border: 1px solid #cc0; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>To-Do List XP</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">
+            {% for message in messages %}
+              <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="/add">
+        <input type="text" name="task" placeholder="Nova tarefa" required>
+        <input type="text" name="category" placeholder="Categoria" required>
+        <button type="submit">Adicionar</button>
+    </form>
+
+    <h2>Tarefas{% if request.args.category %} - Categoria: {{ request.args.category }}{% endif %}</h2>
+
+    <ul>
+        {% for task in tasks %}
+            <li class="{{ 'done' if task[2] else '' }}">
+                {{ task[1] }}
+                {% if not task[2] %}
+                    <a href="/done/{{ task[0] }}">[Concluir]</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
