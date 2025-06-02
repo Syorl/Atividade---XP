@@ -16,3 +16,34 @@
 [INFO] 2025-06-02 15:34:29,326 -  * Restarting with watchdog (windowsapi)
 [WARNING] 2025-06-02 15:34:29,850 -  * Debugger is active!
 [INFO] 2025-06-02 15:34:29,855 -  * Debugger PIN: 674-952-540
+[INFO] 2025-06-02 15:49:22,589 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[INFO] 2025-06-02 15:49:22,589 - [33mPress CTRL+C to quit[0m
+[INFO] 2025-06-02 15:49:22,610 -  * Restarting with watchdog (windowsapi)
+[WARNING] 2025-06-02 15:49:23,118 -  * Debugger is active!
+[INFO] 2025-06-02 15:49:23,122 -  * Debugger PIN: 674-952-540
+[INFO] 2025-06-02 16:15:45,523 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[INFO] 2025-06-02 16:15:45,523 - [33mPress CTRL+C to quit[0m
+[INFO] 2025-06-02 16:15:45,545 -  * Restarting with watchdog (windowsapi)
+[WARNING] 2025-06-02 16:15:46,050 -  * Debugger is active!
+[INFO] 2025-06-02 16:15:46,053 -  * Debugger PIN: 674-952-540
+[INFO] 2025-06-02 16:15:53,801 - 127.0.0.1 - - [02/Jun/2025 16:15:53] "GET / HTTP/1.1" 200 -
+[INFO] 2025-06-02 16:22:28,215 -  * Detected change in 'e:\\A3\\Atividade XP\\todo-list-xp-python\\src\\app.py', reloading
+[INFO] 2025-06-02 16:22:28,216 -  * Detected change in 'e:\\A3\\Atividade XP\\todo-list-xp-python\\src\\app.py', reloading
+[INFO] 2025-06-02 16:22:28,217 -  * Detected change in 'e:\\A3\\Atividade XP\\todo-list-xp-python\\src\\app.py', reloading
+[INFO] 2025-06-02 16:22:29,275 -  * Restarting with watchdog (windowsapi)
+[INFO] 2025-06-02 16:29:18,633 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[INFO] 2025-06-02 16:29:18,633 - [33mPress CTRL+C to quit[0m
+[INFO] 2025-06-02 16:29:18,649 -  * Restarting with watchdog (windowsapi)
+[WARNING] 2025-06-02 16:29:19,156 -  * Debugger is active!
+[INFO] 2025-06-02 16:29:19,160 -  * Debugger PIN: 674-952-540
+[ERROR] 2025-06-02 16:29:27,450 - Erro ao buscar tarefas: no such table: tasks
+[INFO] 2025-06-02 16:29:27,503 - 127.0.0.1 - - [02/Jun/2025 16:29:27] "GET / HTTP/1.1" 200 -
+[ERROR] 2025-06-02 16:29:28,407 - Erro ao buscar tarefas: no such table: tasks
+[INFO] 2025-06-02 16:29:28,408 - 127.0.0.1 - - [02/Jun/2025 16:29:28] "GET / HTTP/1.1" 200 -
+[ERROR] 2025-06-02 16:29:41,162 - Erro ao adicionar tarefa: no such table: tasks
+[INFO] 2025-06-02 16:29:41,164 - 127.0.0.1 - - [02/Jun/2025 16:29:41] "[32mPOST /add HTTP/1.1[0m" 302 -
+[ERROR] 2025-06-02 16:29:41,176 - Erro ao buscar tarefas: no such table: tasks
+[INFO] 2025-06-02 16:29:41,178 - 127.0.0.1 - - [02/Jun/2025 16:29:41] "GET / HTTP/1.1" 200 -

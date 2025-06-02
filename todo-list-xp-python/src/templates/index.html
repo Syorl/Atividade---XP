@@ -1,45 +1,240 @@
 ﻿<!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do List XP</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; }
-        .done { text-decoration: line-through; color: gray; }
-        .flash { background: #ffd; padding: 10px; border: 1px solid #cc0; margin-bottom: 10px; }
+        :root {
+            --high-priority: #ff6b6b;
+            --medium-priority: #ffd166;
+            --low-priority: #06d6a0;
+            --background: #f8f9fa;
+            --text: #212529;
+            --border: #dee2e6;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .task-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .task-form input, 
+        .task-form select {
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+        
+        .task-form button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .categories {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        
+        .category-tab {
+            padding: 8px 16px;
+            background-color: #e9ecef;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .category-tab.active {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .tasks-container {
+            margin-top: 20px;
+        }
+        
+        .category-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .task-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        
+        .task-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .priority-indicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+        }
+        
+        .priority-high { background-color: var(--high-priority); }
+        .priority-medium { background-color: var(--medium-priority); }
+        .priority-low { background-color: var(--low-priority); }
+        
+        .task-actions a {
+            color: #007bff;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: 1px solid #007bff;
+        }
+        
+        .task-actions a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .empty-message {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            padding: 20px;
+        }
+
+        .flashes {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .flashes .success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .flashes .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .flashes .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
-    <h1>To-Do List XP</h1>
+    <div class="header">
+        <h1>To-Do List XP</h1>
+        <p>Gerenciamento simples e eficiente</p>
+    </div>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="flash">
-            {% for message in messages %}
-              <p>{{ message }}</p>
-            {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
+    <!-- Mensagens Flash -->
+    <div class="flashes">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
 
-    <form method="POST" action="/add">
+    <!-- Formulário de Adição -->
+    <form class="task-form" action="/add" method="POST">
         <input type="text" name="task" placeholder="Nova tarefa" required>
         <input type="text" name="category" placeholder="Categoria" required>
+        <select name="priority">
+            <option value="1">Alta Prioridade</option>
+            <option value="2" selected>Média Prioridade</option>
+            <option value="3">Baixa Prioridade</option>
+        </select>
         <button type="submit">Adicionar</button>
     </form>
 
-    <h2>Tarefas{% if request.args.category %} - Categoria: {{ request.args.category }}{% endif %}</h2>
-
-    <ul>
-        {% for task in tasks %}
-            <li class="{{ 'done' if task[2] else '' }}">
-                {{ task[1] }}
-                {% if not task[2] %}
-                    <a href="/done/{{ task[0] }}">[Concluir]</a>
-                {% endif %}
-            </li>
+    <!-- Abas de Categorias -->
+    <div class="categories" id="categoryTabs">
+        <div class="category-tab {% if not current_category %}active{% endif %}" data-category="">Todas</div>
+        {% for cat in categories %}
+            <div class="category-tab {% if current_category == cat %}active{% endif %}" data-category="{{ cat }}">{{ cat }}</div>
         {% endfor %}
-    </ul>
+    </div>
+
+    <!-- Lista de Tarefas -->
+    <div class="tasks-container">
+        {% if tasks_by_category %}
+            {% for category, tasks in tasks_by_category.items() %}
+                <div class="category-section">
+                    <div class="category-title">{{ category }}</div>
+                    
+                    {% if tasks %}
+                        <div class="task-list">
+                            {% for task in tasks %}
+                                <div class="task-card priority-{% if task.priority == 1 %}high{% elif task.priority == 3 %}low{% else %}medium{% endif %}">
+                                    <div class="task-info">
+                                        <span class="priority-indicator"></span>
+                                        <span>{{ task.task }}</span>
+                                    </div>
+                                    <div class="task-actions">
+                                        <a href="/done/{{ task.id }}">Concluir</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="empty-message">Nenhuma tarefa nesta categoria!</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-message">Nenhuma tarefa cadastrada! Adicione sua primeira tarefa.</div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Script para filtrar por categoria
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const category = tab.dataset.category;
+                window.location.href = `/?category=${category}`;
+            });
+        });
+    </script>
 </body>
 </html>
-
